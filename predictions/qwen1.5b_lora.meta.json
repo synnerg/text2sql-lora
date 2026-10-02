@@ -14,5 +14,21 @@
    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
    "peak_vram_mb": 3057
   }
+ },
+ {
+  "timestamp": "2026-10-01T21:31:16-07:00",
+  "n_generated": 834,
+  "session_wall_seconds": 1324.7325441999997,
+  "backend": {
+   "backend": "transformers",
+   "model": "Qwen/Qwen2.5-1.5B-Instruct",
+   "adapter": "adapters/qwen1.5b-spider-lora",
+   "dtype": "float16",
+   "decoding": "greedy",
+   "max_new_tokens": 256,
+   "torch": "2.11.0+cu128",
+   "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+   "peak_vram_mb": 3057
+  }
  }
 ]

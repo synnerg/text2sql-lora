@@ -6,6 +6,21 @@ the Spider benchmark. Trained and evaluated entirely on one 8 GB laptop GPU (RTX
 ## Results
 
 <!-- results:start -->
+Slice: `devfull` (1034 questions scored).
+
+| Model | Execution accuracy | 95% CI | Correct | p50 latency | p95 latency |
+| --- | --- | --- | --- | --- | --- |
+| Qwen2.5-1.5B-Instruct, zero-shot (transformers fp16) | **46.7%** | 43.7% to 49.8% | 483/1034 | 2.31 s | 4.67 s |
+| Qwen2.5-7B-Instruct, zero-shot (Ollama Q4_K_M) | **73.7%** | 70.9% to 76.3% | 762/1034 | 0.77 s | 2.19 s |
+| Qwen2.5-1.5B-Instruct + LoRA (this repo, transformers fp16) | **62.7%** | 59.7% to 65.6% | 648/1034 | 1.52 s | 3.46 s |
+
+Paired comparisons on the same questions:
+
+| A vs B | Accuracy difference (A - B) | Bootstrap 95% CI | Only A right | Only B right | McNemar p |
+| --- | --- | --- | --- | --- | --- |
+| Qwen2.5-1.5B-Instruct + LoRA (this repo, transformers fp16) vs Qwen2.5-1.5B-Instruct, zero-shot (transformers fp16) | +16.0 pts | +12.8 to +19.1 pts | 237 | 72 | 1.0e-21 |
+| Qwen2.5-1.5B-Instruct + LoRA (this repo, transformers fp16) vs Qwen2.5-7B-Instruct, zero-shot (Ollama Q4_K_M) | -11.0 pts | -14.1 to -7.9 pts | 81 | 195 | 5.2e-12 |
+
 Slice: `dev200` (200 questions scored).
 
 | Model | Execution accuracy | 95% CI | Correct | p50 latency | p95 latency |
@@ -27,6 +42,10 @@ own zero-shot baseline (the paired interval excludes zero), and it still trails 
 zero-shot 7B model. The fine-tune narrows the gap to a model about five times its size;
 it does not close it.
 
+The first table is the full Spider dev set. The second is the seeded 200-question slice
+that was fixed before any model was scored and used while iterating; it is kept so the
+two can be compared. Both lead to the same conclusions.
+
 How to read this:
 
 - **Execution accuracy**: the predicted SQL and the gold SQL are both run against the real
@@ -41,6 +60,8 @@ How to read this:
   describes that serving stack, not the model size alone.
 - All three rows use the same prompt, the same questions and the same scorer. The dev
   databases never appear in training.
+- The full-dev rows reuse the cached dev200 outputs and add the remaining 834 questions
+  in a later session on the same machine, so their latency figures pool two sessions.
 
 Every number in this README is generated from the files in [`results/`](results/) by
 `scripts/make_table.py`. Nothing is estimated or quoted from elsewhere.
@@ -108,7 +129,7 @@ curl -L -o data/spider_data.zip https://huggingface.co/datasets/HAL-9001/spider-
 unzip data/spider_data.zip -d data
 ollama pull qwen2.5:7b
 
-uv run python scripts/make_slice.py --n 200
+uv run python scripts/make_slice.py --n 200    # and --n 0 for data_slices/devfull.json
 uv run python scripts/evaluate.py --backend gold --name smoke_gold --limit 10      # must be 10/10
 uv run python scripts/evaluate.py --backend hf --model Qwen/Qwen2.5-1.5B-Instruct --name qwen1.5b_zeroshot
 uv run python scripts/evaluate.py --backend ollama --model qwen2.5:7b --name qwen7b_ollama_zeroshot
@@ -118,6 +139,10 @@ uv run python scripts/evaluate.py --backend hf --model Qwen/Qwen2.5-1.5B-Instruc
     --adapter adapters/qwen1.5b-spider-lora --name qwen1.5b_lora
 uv run python scripts/compare.py --pairs qwen1.5b_lora:qwen1.5b_zeroshot qwen1.5b_lora:qwen7b_ollama_zeroshot
 uv run python scripts/make_table.py
+# full dev: add --slice data_slices/devfull.json to the three evaluate.py commands (the
+# cache means only the missing questions are generated), then
+uv run python scripts/compare.py --slice devfull --pairs qwen1.5b_lora:qwen1.5b_zeroshot qwen1.5b_lora:qwen7b_ollama_zeroshot
+uv run python scripts/make_table.py --slice devfull dev200
 uv run pytest -q                          # scorer and stats tests, no GPU needed
 ```
 
@@ -126,8 +151,8 @@ Raw model outputs for every scored question are committed under
 
 ## Limitations
 
-- Scored on a seeded slice of Spider dev, not the full set, unless the slice line above
-  says otherwise. The confidence intervals show how much that costs.
+- Scored on Spider dev only. The held-out Spider test set and other benchmarks are not
+  evaluated.
 - Execution match on a single database instance can accept a wrong query that happens to
   return the right rows. Spider's test-suite databases exist to tighten this; they are
   not used here.

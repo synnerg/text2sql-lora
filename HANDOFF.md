@@ -118,6 +118,7 @@ Run names used in the table: `qwen1.5b_zeroshot`, `qwen7b_ollama_zeroshot`,
 | 2026-10-01 | Priorities after the incident: training and tuned dev200 scoring are the only must-haves; demo app and full dev only if time allows | Recovery cost time before a fixed freeze. |
 | 2026-10-01 | Full dev is attempted only because the measured dev200 per-question times projected the remaining 834 questions for all three models to finish before 22:30; order is LoRA, 7B, base | Owner rule: extend only if it fits. A partial full-dev run is not reported, because the three rows must share the same questions. |
 | 2026-10-01 | The demo is a local command-line script, not a hosted app | It reuses the evaluated inference path and needed no new dependency; hosting stays on the roadmap. |
+| 2026-10-01 | README headline is the full-dev table; the dev200 table stays underneath | Full dev is the standard, tighter measurement. dev200 was the slice fixed in advance, so it is shown rather than dropped. |
 
 ## Status checklist
 
@@ -131,9 +132,9 @@ Run names used in the table: `qwen1.5b_zeroshot`, `qwen7b_ollama_zeroshot`,
       table (`results/*__dev200.json`, `results/compare__dev200.json`)
 - [x] 6: pushed, minimal CI green (ruff + pytest on the scorer and stats)
 - [x] Local command-line demo (`scripts/ask.py`); a hosted demo is still roadmap
-- [ ] Full-dev evaluation (1,034 questions): started 2026-10-01 21:09 with a 22:30
-      cutoff. It counts as done only if all three `results/*__devfull.json` files exist;
-      otherwise it stays on the roadmap
+- [x] Full-dev evaluation (1,034 questions): all three models completed at 22:18, inside
+      the 22:30 cutoff (`results/*__devfull.json`, `results/compare__devfull.json`). The
+      README headline table is now full dev, with the dev200 table kept below it
 - [ ] Freeze: 3 resume bullets from measured numbers only
 
 ## Incidents
@@ -176,9 +177,11 @@ Nothing below has been built or measured. Do not describe any of it as done.
 3. **QLoRA at 7B.** 4-bit quantised base with LoRA adapters so a 7B model can be tuned
    within 8 GB VRAM, scored with the same harness.
 4. **Deployed demo.** A small hosted app: pick a database, ask a question, see the SQL
-   and the executed result.
-5. **Evaluation depth.** Full Spider dev, per-hardness breakdown, and Spider's
-   test-suite databases for stricter execution matching.
+   and the executed result. (A local command-line version, `scripts/ask.py`, exists;
+   nothing is hosted.)
+5. **Evaluation depth.** Per-hardness breakdown and Spider's test-suite databases for
+   stricter execution matching. (Full Spider dev was completed on 2026-10-01 and is no
+   longer roadmap.)
 
 ## How to resume
 

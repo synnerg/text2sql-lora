@@ -22,5 +22,29 @@
    "size_bytes": 4748056984,
    "size_vram_bytes": 4748056984
   }
+ },
+ {
+  "timestamp": "2026-10-01T21:45:17-07:00",
+  "n_generated": 834,
+  "session_wall_seconds": 822.0758823999995,
+  "backend": {
+   "backend": "ollama",
+   "model": "qwen2.5:7b",
+   "decoding": "temperature 0",
+   "max_new_tokens": 256,
+   "num_ctx": 4096,
+   "details": {
+    "parent_model": "",
+    "format": "gguf",
+    "family": "qwen2",
+    "families": [
+     "qwen2"
+    ],
+    "parameter_size": "7.6B",
+    "quantization_level": "Q4_K_M"
+   },
+   "size_bytes": 4748056984,
+   "size_vram_bytes": 4748056984
+  }
  }
 ]

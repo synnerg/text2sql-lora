@@ -1,0 +1,49 @@
+# virtual environments
+.venv/
+venv/
+env/
+
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# datasets
+data/
+*.sqlite
+*.db
+*.zip
+*.parquet
+
+# model weights and LoRA checkpoints
+adapters/
+checkpoints/
+models/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+*.ckpt
+
+# caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.cache/
+.ipynb_checkpoints/
+hf_cache/
+
+# logs
+logs/
+*.log
+wandb/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

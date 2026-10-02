@@ -47,7 +47,8 @@ def render(tag: str) -> str:
     cmp_path = ROOT / "results" / f"compare__{tag}.json"
     if cmp_path.exists():
         out += "\nPaired comparisons on the same questions:\n\n"
-        out += "| A vs B | Accuracy difference (A - B) | Bootstrap 95% CI | Only A right | Only B right | McNemar p |\n"
+        out += ("| A vs B | Accuracy difference (A - B) | Bootstrap 95% CI | Only A right | "
+                "Only B right | McNemar p |\n")
         out += "| --- | --- | --- | --- | --- | --- |\n"
         for c in json.loads(cmp_path.read_text("utf-8")):
             b, mc = c["paired_bootstrap"], c["mcnemar_exact"]

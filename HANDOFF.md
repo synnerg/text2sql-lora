@@ -116,6 +116,8 @@ Run names used in the table: `qwen1.5b_zeroshot`, `qwen7b_ollama_zeroshot`,
 | 2026-10-01 | Resume rebuilds the batch schedule from the seed and skips completed batches; the checkpoint stores a settings fingerprint | The resumed run is the same run, and a checkpoint cannot be continued with different hyperparameters by accident. |
 | 2026-10-01 | A temperature-based pause guard was built, then removed before use (owner instruction) | The owner fixed the cooling problem directly and asked for full speed; the checkpoints remain as the safety net. |
 | 2026-10-01 | Priorities after the incident: training and tuned dev200 scoring are the only must-haves; demo app and full dev only if time allows | Recovery cost time before a fixed freeze. |
+| 2026-10-01 | Full dev is attempted only because the measured dev200 per-question times projected the remaining 834 questions for all three models to finish before 22:30; order is LoRA, 7B, base | Owner rule: extend only if it fits. A partial full-dev run is not reported, because the three rows must share the same questions. |
+| 2026-10-01 | The demo is a local command-line script, not a hosted app | It reuses the evaluated inference path and needed no new dependency; hosting stays on the roadmap. |
 
 ## Status checklist
 
@@ -123,11 +125,16 @@ Run names used in the table: `qwen1.5b_zeroshot`, `qwen7b_ollama_zeroshot`,
 - [x] 1: repo on GitHub (github.com/synnerg/text2sql-lora), Spider downloaded, qwen2.5:7b pulled
 - [x] 2: execution-match harness, smoke-tested on 10 examples
 - [x] 3: zero-shot baselines on the dev slice (1.5B transformers, 7B Ollama)
-- [ ] 4: LoRA fine-tune on Spider train, loss curve (**must-have**; run 2 in progress)
-- [ ] 5: tuned model re-scored on dev200, README opens with the 3-row table (**must-have**)
-- [ ] 6: pushed (done continuously), minimal CI green
+- [x] 4: LoRA fine-tune on Spider train, loss curve (run 2 completed one full epoch;
+      `results/train_summary.json`, `results/train_loss_curve.png`)
+- [x] 5: tuned model re-scored on dev200, paired tests run, README opens with the 3-row
+      table (`results/*__dev200.json`, `results/compare__dev200.json`)
+- [x] 6: pushed, minimal CI green (ruff + pytest on the scorer and stats)
+- [x] Local command-line demo (`scripts/ask.py`); a hosted demo is still roadmap
+- [ ] Full-dev evaluation (1,034 questions): started 2026-10-01 21:09 with a 22:30
+      cutoff. It counts as done only if all three `results/*__devfull.json` files exist;
+      otherwise it stays on the roadmap
 - [ ] Freeze: 3 resume bullets from measured numbers only
-- [ ] Only if time allows: full-dev evaluation, demo app
 
 ## Incidents
 

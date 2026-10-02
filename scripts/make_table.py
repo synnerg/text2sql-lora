@@ -101,10 +101,10 @@ def splice(text: str, name: str, body: str) -> str:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--slice", default="dev200")
+    ap.add_argument("--slice", nargs="+", default=["dev200"], help="first one is the headline")
     ap.add_argument("--print-only", action="store_true")
     args = ap.parse_args()
-    table = render(args.slice)
+    table = "\n".join(render(tag) for tag in args.slice)
     print(table)
     if args.print_only:
         return

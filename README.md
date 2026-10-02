@@ -22,6 +22,11 @@ Paired comparisons on the same questions:
 | Qwen2.5-1.5B-Instruct + LoRA (this repo, transformers fp16) vs Qwen2.5-7B-Instruct, zero-shot (Ollama Q4_K_M) | -8.5 pts | -16.0 to -1.0 pts | 21 | 38 | 0.036 |
 <!-- results:end -->
 
+In short: one epoch of LoRA on a single laptop GPU lifts the 1.5B model clearly above its
+own zero-shot baseline (the paired interval excludes zero), and it still trails the
+zero-shot 7B model. The fine-tune narrows the gap to a model about five times its size;
+it does not close it.
+
 How to read this:
 
 - **Execution accuracy**: the predicted SQL and the gold SQL are both run against the real
@@ -52,6 +57,21 @@ Every number in this README is generated from the files in [`results/`](results/
 <!-- training:end -->
 
 ![training loss](results/train_loss_curve.png)
+
+This is the second training run. The first was lost to a hardware shutdown before
+checkpointing existed; its partial loss log is kept as
+`results/train_log_run1_interrupted.jsonl` and the incident is written up in
+[HANDOFF.md](HANDOFF.md). Training now checkpoints every 5 minutes and resumes with
+`--resume`.
+
+## Try it
+
+A local command-line demo (not a hosted app): pick a Spider database, ask a question,
+see the SQL the fine-tuned model writes and the rows it returns.
+
+```bash
+uv run python scripts/ask.py --db concert_singer "Which country has the most singers, and how many?"
+```
 
 ## How it works
 
@@ -92,7 +112,7 @@ uv run python scripts/make_slice.py --n 200
 uv run python scripts/evaluate.py --backend gold --name smoke_gold --limit 10      # must be 10/10
 uv run python scripts/evaluate.py --backend hf --model Qwen/Qwen2.5-1.5B-Instruct --name qwen1.5b_zeroshot
 uv run python scripts/evaluate.py --backend ollama --model qwen2.5:7b --name qwen7b_ollama_zeroshot
-uv run python scripts/train_lora.py --epochs 1 --max-len 768 --max-tokens 800 --grad-accum 4
+uv run python scripts/train_lora.py --epochs 1 --max-len 768 --max-tokens 800 --grad-accum 4 --resume
 uv run python scripts/plot_loss.py
 uv run python scripts/evaluate.py --backend hf --model Qwen/Qwen2.5-1.5B-Instruct \
     --adapter adapters/qwen1.5b-spider-lora --name qwen1.5b_lora
@@ -117,8 +137,8 @@ Raw model outputs for every scored question are committed under
 ## Roadmap
 
 Not started: GRPO reinforcement learning with execution rewards, synthetic
-self-distillation, QLoRA at 7B, and a deployed demo. Details and the decisions log are in
-[HANDOFF.md](HANDOFF.md).
+self-distillation, QLoRA at 7B, and a deployed (hosted) demo. Details and the decisions
+log are in [HANDOFF.md](HANDOFF.md).
 
 ## Attribution
 

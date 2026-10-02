@@ -1,0 +1,47 @@
+{"idx": 0, "db_id": "concert_singer", "raw": "SELECT COUNT(DISTINCT Singer_ID) FROM singer;", "gen_seconds": 0.6996731999679469}
+{"idx": 10, "db_id": "concert_singer", "raw": "SELECT Country, COUNT(*) FROM singer GROUP BY Country;", "gen_seconds": 0.6887579999747686}
+{"idx": 14, "db_id": "concert_singer", "raw": "SELECT Location, Name FROM stadium WHERE Capacity BETWEEN 5000 AND 10000;", "gen_seconds": 1.8642372000031173}
+{"idx": 17, "db_id": "concert_singer", "raw": "```sql\nSELECT AVG(Capacity) AS Average_Capacity, MAX(Capacity) AS Maximum_Capacity FROM stadium;\n```", "gen_seconds": 2.1197563000023365}
+{"idx": 26, "db_id": "concert_singer", "raw": "SELECT Year FROM concert GROUP BY Year ORDER BY COUNT(*) DESC LIMIT 1;", "gen_seconds": 1.1955830000224523}
+{"idx": 28, "db_id": "concert_singer", "raw": "SELECT Name FROM stadium EXCEPT SELECT T1.Name FROM concert AS T1 JOIN singer AS T2 ON T1.concert_ID = T2.concert_ID", "gen_seconds": 2.308885900012683}
+{"idx": 34, "db_id": "concert_singer", "raw": "SELECT c.concert_Name, c.Theme, COUNT(s.Singer_ID) FROM concert AS c JOIN singer_in_concert AS sic ON c.concert_ID = sic.concert_ID JOIN singer AS s ON sic.Singer_ID = s.Singer_ID GROUP BY c.concert_Name, c.Theme;", "gen_seconds": 3.3498205000068992}
+{"idx": 37, "db_id": "concert_singer", "raw": "SELECT T3.Name FROM concert AS T1 JOIN singer_in_concert AS T2 ON T1.concert_ID = T2.concert_ID JOIN singer AS T3 ON T2.Singer_ID = T3.Singer_ID WHERE T1.Year = '2014'", "gen_seconds": 3.4108038999838755}
+{"idx": 41, "db_id": "concert_singer", "raw": "SELECT s.Name, s.Location FROM stadium s JOIN concert c ON s.Stadium_ID = c.Stadium_ID WHERE c.Year IN ('2014', '2015') GROUP BY s.Stadium_ID;", "gen_seconds": 2.595277599990368}
+{"idx": 48, "db_id": "pets_1", "raw": "SELECT MIN(T2.weight) FROM Students AS T1 JOIN Has_Pet AS T2 ON T1.StuID = T2.StuID WHERE T1.Fname = 'Youngest' AND T1.LName = 'Dog';", "gen_seconds": 2.7271460000192747}
+{"idx": 49, "db_id": "pets_1", "raw": "SELECT T2.PetType, MAX(T2.weight)\nFROM Students AS T1\nJOIN Has_Pet AS T3 ON T1.StuID = T3.StuID\nJOIN Pets AS T2 ON T3.PetID = T2.PetID\nGROUP BY T2.PetType;", "gen_seconds": 4.0210271999822}
+{"idx": 52, "db_id": "pets_1", "raw": "SELECT COUNT(DISTINCT T1.StuID) FROM Student AS T1 JOIN Has_Pet AS T2 ON T1.StuID = T2.StuID WHERE T1.Age > 20", "gen_seconds": 3.2124486000393517}
+{"idx": 54, "db_id": "pets_1", "raw": "SELECT COUNT(*) FROM Pets AS T1 JOIN Student AS T2 ON T1.PetID = T2.StuID WHERE T2.Sex = 'F' AND T1.pet_type = 'Dog';", "gen_seconds": 3.151241099985782}
+{"idx": 55, "db_id": "pets_1", "raw": "SELECT COUNT(DISTINCT T1.PetType) FROM Pets AS T1", "gen_seconds": 1.2606349000125192}
+{"idx": 69, "db_id": "pets_1", "raw": "SELECT T1.PetID, T1.weight FROM Pets AS T1 JOIN Has_Pet AS T2 ON T1.PetID = T2.PetID WHERE T2.Age > 1;", "gen_seconds": 2.6331561999977566}
+{"idx": 72, "db_id": "pets_1", "raw": "SELECT T1.PetType, AVG(T1.Age) AS Average_Age, MAX(T1.Age) AS Maximum_Age FROM Students AS T1 JOIN Has_Pet AS T2 ON T1.StuID = T2.StuID JOIN Pets AS T3 ON T2.PetID = T3.PetID GROUP BY T1.PetType", "gen_seconds": 4.988572300004307}
+{"idx": 80, "db_id": "pets_1", "raw": "```sql\nSELECT S.StuID, COUNT(HP.PetID) AS NumPets\nFROM Students S\nJOIN Has_Pet HP ON S.StuID = HP.StuID\nGROUP BY S.StuID;\n```", "gen_seconds": 3.657827399962116}
+{"idx": 90, "db_id": "car_1", "raw": "```sql\nSELECT ContId, Continent, COUNT(*) FROM countries GROUP BY ContId;\n```", "gen_seconds": 2.167212500004098}
+{"idx": 91, "db_id": "car_1", "raw": "SELECT COUNT(DISTINCT CountryId) FROM countries;", "gen_seconds": 0.7471921999822371}
+{"idx": 98, "db_id": "car_1", "raw": "SELECT T1.Model FROM car_names AS T1 JOIN model_list AS T2 ON T1.MakeId = T2.Make WHERE T1.Weight < (SELECT AVG(Weight) FROM cars_data)", "gen_seconds": 3.0283886999823153}
+{"idx": 100, "db_id": "car_1", "raw": "SELECT DISTINCT c2.FullName FROM car_makers AS c1 JOIN model_list AS c3 ON c1.Id = c3.Maker WHERE c3.Model IN (SELECT Model FROM car_names WHERE Year = 1970) AND c1.FullName != 'N/A'", "gen_seconds": 3.9031615999992937}
+{"idx": 104, "db_id": "car_1", "raw": "SELECT DISTINCT T2.Model FROM cars_data AS T1 JOIN model_list AS T2 ON T1.MakeId = T2.Make WHERE T1.Year > 1980", "gen_seconds": 2.5737395000178367}
+{"idx": 112, "db_id": "car_1", "raw": "SELECT AVG(Accelerate) FROM cars_data WHERE Make = 'AMC Hornet Sportabout' AND Make LIKE '%amc%hornet%sportabout%'", "gen_seconds": 2.243522499979008}
+{"idx": 114, "db_id": "car_1", "raw": "SELECT COUNT(DISTINCT T1.FullName) FROM car_makers AS T1 INNER JOIN countries AS T2 ON T1.Country = T2.CountryName WHERE T2.Continent = 'France' AND T1.Country = T2.CountryName;", "gen_seconds": 3.118612700025551}
+{"idx": 115, "db_id": "car_1", "raw": "SELECT COUNT(DISTINCT T1.Model) FROM car_names AS T1 JOIN model_list AS T2 ON T1.MakeId = T2.Make WHERE T1.Country LIKE '%USA%'", "gen_seconds": 2.4073340999893844}
+{"idx": 116, "db_id": "car_1", "raw": "SELECT COUNT(DISTINCT T1.Model) FROM car_names AS T1 JOIN model_list AS T2 ON T1.MakeId = T2.MakeId JOIN car_makers AS T3 ON T1.Maker = T3.FullName WHERE T3.Country = 'United States'", "gen_seconds": 3.9348415000131354}
+{"idx": 118, "db_id": "car_1", "raw": "SELECT AVG(T1.MPG) FROM car_names AS T1 JOIN model_list AS T2 ON T1.MakeId = T2.Make WHERE T1.Cylinders = 4", "gen_seconds": 2.5397367000114173}
+{"idx": 122, "db_id": "car_1", "raw": "SELECT DISTINCT c1.FullName AS Maker, m2.Model FROM car_makers AS c1 JOIN model_list AS m1 ON c1.Id = m1.Maker JOIN car_names AS m2 ON m1.Model = m2.Model", "gen_seconds": 2.6580577000277117}
+{"idx": 141, "db_id": "car_1", "raw": "SELECT T1.Model FROM car_names AS T1 JOIN model_list AS T2 ON T1.Make = T2.Maker GROUP BY T1.Model ORDER BY COUNT(T1.Make) DESC LIMIT 1;", "gen_seconds": 3.050305999990087}
+{"idx": 151, "db_id": "car_1", "raw": "```sql\nSELECT DISTINCT T1.Model FROM car_names AS T1 JOIN model_list AS T2 ON T1.MakeId = T2.Make WHERE T1.FullName LIKE 'General% Motors' OR T1.Weight > 3500;\n```", "gen_seconds": 3.6237150999950245}
+{"idx": 156, "db_id": "car_1", "raw": "SELECT T1.Horsepower FROM car_names AS T1 JOIN model_list AS T2 ON T1.MakeId = T2.Make WHERE T1.Accelerate = ( SELECT MAX(Accelerate) FROM car_names )", "gen_seconds": 2.7454069000086747}
+{"idx": 158, "db_id": "car_1", "raw": "SELECT T1.Cylinders FROM car_names AS T1 JOIN model_list AS T2 ON T1.Make = T2.Model WHERE T1.Make = 'Volvo' ORDER BY T1.Accelerate LIMIT 1", "gen_seconds": 2.98658109997632}
+{"idx": 162, "db_id": "car_1", "raw": "SELECT COUNT(DISTINCT c.CountryName) FROM countries AS c JOIN car_makers AS cm ON c.Continent = cm.Country WHERE cm.Id > 2", "gen_seconds": 2.3610029999981634}
+{"idx": 164, "db_id": "car_1", "raw": "SELECT COUNT(*) FROM cars_data WHERE Cylinders > 6;", "gen_seconds": 0.962886499997694}
+{"idx": 173, "db_id": "car_1", "raw": "SELECT T1.CountryName FROM countries AS T1 JOIN car_makers AS T2 ON T1.Continent = T2.Continent WHERE T2.FullName IS NULL", "gen_seconds": 2.124415099970065}
+{"idx": 183, "db_id": "flight_2", "raw": "SELECT T1.Airline, T1.Abbreviation FROM airlines AS T1 JOIN flights AS T2 ON T1.uid = T2.Airline WHERE T1.Country = 'USA'", "gen_seconds": 2.5352987000369467}
+{"idx": 186, "db_id": "flight_2", "raw": "SELECT T2.AirportCode, T2.AirportName FROM cities AS T1 JOIN airports AS T2 ON T1.City = T2.City WHERE T1.Name = 'Anthony'", "gen_seconds": 2.748314400028903}
+{"idx": 187, "db_id": "flight_2", "raw": "SELECT COUNT(DISTINCT uid) FROM airlines;", "gen_seconds": 0.8860624000080861}
+{"idx": 206, "db_id": "flight_2", "raw": "SELECT COUNT(*) FROM flights WHERE DestAirport = 'ATO'", "gen_seconds": 0.7953936000121757}
+{"idx": 207, "db_id": "flight_2", "raw": "SELECT COUNT(*) FROM flights WHERE SourceAirport = 'Aberdeen'", "gen_seconds": 0.8938636999810115}
+{"idx": 208, "db_id": "flight_2", "raw": "SELECT COUNT(*) FROM flights WHERE SourceAirport = 'Aberdeen'", "gen_seconds": 0.8727674999972805}
+{"idx": 213, "db_id": "flight_2", "raw": "SELECT COUNT(FlightNo) FROM flights WHERE Airline = 'JetBlue Airways'", "gen_seconds": 0.9829357000417076}
+{"idx": 219, "db_id": "flight_2", "raw": "SELECT COUNT(*) FROM flights f JOIN airlines a ON f.Airline = a.uid JOIN airports src ON f.SourceAirport = src.AirportCode JOIN airports dst ON f.DestAirport = dst.AirportCode WHERE a.Abbreviation = 'UA' AND dst.City = 'Aberdeen';", "gen_seconds": 3.5080308000324294}
+{"idx": 220, "db_id": "flight_2", "raw": "SELECT COUNT(*) FROM flights f JOIN airports a ON f.DestAirport = a.AirportCode WHERE f.Airline = 1 AND a.City = 'Aberdeen'", "gen_seconds": 2.4539357000030577}
+{"idx": 227, "db_id": "flight_2", "raw": "SELECT AirportCode FROM airports WHERE AirportCode IN (SELECT DestAirport FROM flights GROUP BY DestAirport HAVING COUNT(*) = (SELECT MIN(COUNT(*)) FROM (SELECT DISTINCT DestAirport FROM flights GROUP BY DestAirport)))", "gen_seconds": 2.664318200026173}
+{"idx": 230, "db_id": "flight_2", "raw": "SELECT T1.Airline FROM airlines AS T1 JOIN flights AS T2 ON T1.uid = T2.Airline GROUP BY T1.Airline ORDER BY COUNT(T2.FlightNo) DESC LIMIT 1;", "gen_seconds": 2.706131400016602}
+{"idx": 246, "db_id": "flight_2", "raw": "SELECT DISTINCT FlightNo FROM flights WHERE Airline = 1", "gen_seconds": 1.1466835000319406}

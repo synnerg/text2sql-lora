@@ -58,22 +58,32 @@ t2sql/
   prompt.py      the single prompt shared by every model; SQL extraction from output
   exec_eval.py   read-only SQL execution with a timeout, result-set comparison,
                  accuracy + latency aggregation (stdlib only)
+  stats.py       exact McNemar test, paired bootstrap CI (stdlib only)
   backends.py    generators: transformers (base or base+LoRA), Ollama, gold oracle
 scripts/
-  make_slice.py  write data/dev_slice.json
-  evaluate.py    backend x slice -> results/<run>.json (+ per-example predictions)
+  make_slice.py  write data_slices/dev200.json (seeded) and devfull.json
+  evaluate.py    backend x slice -> results/<run>__<slice>.json; caches every model
+                 output in predictions/<run>.jsonl and only generates what is missing
+  compare.py     paired tests between two runs -> results/compare__<slice>.json
   train_lora.py  LoRA fine-tune, logs loss per step to results/train_log.jsonl
-  plot_loss.py   results/train_log.jsonl -> results/loss_curve.png
+  plot_loss.py   results/train_log.jsonl -> results/train_loss_curve.png
   make_table.py  results/*.json -> the README results table
-tests/           unit tests for the scorer, run in CI without a GPU
+tests/           unit tests for the scorer and stats, run in CI without a GPU
 results/         committed run outputs: the only legal source of numbers
+predictions/     committed cache of raw model outputs and per-question timings
+data_slices/     committed dev slices (question, gold SQL, db_id)
 data/            downloaded datasets (git-ignored)
+adapters/        trained LoRA weights (git-ignored)
 ```
 
 Data flow: `make_slice` fixes the dev questions once. `evaluate` asks a backend for SQL
-for each question, hands prediction and gold to `exec_eval`, and writes one JSON per
-run. `make_table` reads those JSON files and renders the table, so the README cannot
-drift from the measurements.
+for each question, caches the raw output, hands prediction and gold to `exec_eval`, and
+writes one JSON per run and slice. `compare` runs the paired tests. `make_table` reads
+those JSON files and renders the table, so the README cannot drift from the
+measurements.
+
+Run names used in the table: `qwen1.5b_zeroshot`, `qwen7b_ollama_zeroshot`,
+`qwen1.5b_lora`.
 
 ## Decisions log
 
@@ -88,6 +98,16 @@ drift from the measurements.
 | 2026-10-01 | Plain fp16 LoRA, no quantisation, for the 1.5B model | It fits in 8 GB without 4-bit loading; fewer moving parts for a one-evening build. |
 | 2026-10-01 | Spider obtained from the `HAL-9001/spider-databases` mirror on Hugging Face | `xlangai/spider` ships questions without the SQLite files; this mirror includes them and publishes a SHA256. |
 | 2026-10-01 | Dev slice instead of full dev | Time budget for three model runs before the freeze. Slice is seeded and committed. |
+| 2026-10-01 | Slice is 200 questions, seed 42, stratified over all 20 dev databases (owner-approved) | Proportional coverage of every unseen schema at a size three runs can afford. |
+| 2026-10-01 | Every model output is cached per question; scoring reads the cache | Re-scoring is free, and extending to full dev reuses the 200 already generated. |
+| 2026-10-01 | Model comparisons use exact McNemar and a paired bootstrap CI | The runs share questions, so paired tests are the right ones; at n=200 unpaired CIs overlap easily. |
+| 2026-10-01 | Latency excludes model load and one warm-up call | Load time is a one-off; the metric is steady-state per-question generation time. |
+| 2026-10-01 | Ollama client talks to `127.0.0.1` over a persistent session | `localhost` on Windows tries IPv6 first and added about 2 s per request; a first partial 7B run was discarded for this reason and rerun. |
+| 2026-10-01 | Latency is end-to-end per serving stack, not a model-only comparison | Ollama runs GGUF Q4_K_M and reuses the cached prompt prefix between consecutive questions on the same schema; transformers runs fp16 with no prefix cache. |
+| 2026-10-01 | Gold SQL whitespace is normalised in training targets | Spider gold has irregular spacing; the model should not spend capacity learning it. Execution results are unaffected. |
+| 2026-10-01 | Training examples longer than the token cap are dropped, not truncated | A truncated schema would teach the model to guess at tables it cannot see. |
+| 2026-10-01 | Adapter is merged into the base weights for evaluation | Same inference path and latency profile as the zero-shot 1.5B row. |
+| 2026-10-01 | CI installs only the dev group and tests the stdlib scorer | No GPU in CI; installing CUDA PyTorch there would add minutes and prove nothing. |
 
 ## Status checklist
 

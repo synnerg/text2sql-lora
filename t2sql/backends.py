@@ -7,7 +7,8 @@ from __future__ import annotations
 import time
 
 MAX_NEW_TOKENS = 256
-OLLAMA_URL = "http://localhost:11434"
+# 127.0.0.1, not localhost: on Windows, localhost tries IPv6 first and adds ~2 s per request.
+OLLAMA_URL = "http://127.0.0.1:11434"
 OLLAMA_NUM_CTX = 4096
 
 
@@ -101,7 +102,7 @@ class OllamaBackend:
     def __init__(self, model: str, url: str = OLLAMA_URL):
         import requests
 
-        self.requests = requests
+        self.requests = requests.Session()
         self.model = model
         self.url = url
         self.generate([{"role": "user", "content": "SELECT"}], max_new_tokens=4)  # load + warm-up

@@ -1,0 +1,44 @@
+[
+ {
+  "a": "qwen1.5b_lora",
+  "b": "qwen1.5b_zeroshot",
+  "n": 200,
+  "acc_a": 0.615,
+  "acc_b": 0.475,
+  "mcnemar_exact": {
+   "only_a_correct": 47,
+   "only_b_correct": 19,
+   "p_value": 0.0007561070639613921
+  },
+  "paired_bootstrap": {
+   "diff": 0.14,
+   "ci95": [
+    0.065,
+    0.22
+   ],
+   "n_resamples": 10000,
+   "seed": 0
+  }
+ },
+ {
+  "a": "qwen1.5b_lora",
+  "b": "qwen7b_ollama_zeroshot",
+  "n": 200,
+  "acc_a": 0.615,
+  "acc_b": 0.7,
+  "mcnemar_exact": {
+   "only_a_correct": 21,
+   "only_b_correct": 38,
+   "p_value": 0.036343179957053884
+  },
+  "paired_bootstrap": {
+   "diff": -0.085,
+   "ci95": [
+    -0.16,
+    -0.01
+   ],
+   "n_resamples": 10000,
+   "seed": 0
+  }
+ }
+]

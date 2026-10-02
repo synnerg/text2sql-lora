@@ -1,0 +1,200 @@
+{"idx": 0, "db_id": "concert_singer", "raw": "SELECT count(*) FROM singer", "gen_seconds": 0.4188072000001739}
+{"idx": 10, "db_id": "concert_singer", "raw": "SELECT Country , COUNT(*) FROM singer GROUP BY Country", "gen_seconds": 0.6721873999999843}
+{"idx": 14, "db_id": "concert_singer", "raw": "SELECT LOCATION , NAME FROM stadium WHERE capacity BETWEEN 5000 AND 10000", "gen_seconds": 1.0989133999996739}
+{"idx": 17, "db_id": "concert_singer", "raw": "SELECT avg(capacity) , max(capacity) FROM stadium", "gen_seconds": 0.6376810000001569}
+{"idx": 26, "db_id": "concert_singer", "raw": "SELECT YEAR FROM concert GROUP BY YEAR ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 0.9004276999999092}
+{"idx": 28, "db_id": "concert_singer", "raw": "SELECT name FROM stadium WHERE stadium_id NOT IN ( SELECT stadium_id FROM concert )", "gen_seconds": 0.9850480000000061}
+{"idx": 34, "db_id": "concert_singer", "raw": "SELECT T1.concert_name , T2.theme , count(*) FROM concert AS T1 JOIN singer_in_concert AS T2 ON T1.concert_id = T2.concert_id GROUP BY T1.concert_id", "gen_seconds": 2.5427639999998064}
+{"idx": 37, "db_id": "concert_singer", "raw": "SELECT T3.Name FROM concert AS T1 JOIN singer_in_concert AS T2 ON T1.concert_id = T2.concert_id JOIN singer AS T3 ON T2.Singer_ID = T3.Singer_ID WHERE T1.Year = 2014", "gen_seconds": 2.987308000000212}
+{"idx": 41, "db_id": "concert_singer", "raw": "SELECT T3.name , T3.location FROM concert AS T1 JOIN stadium AS T2 ON T1.stadium_id = T2.stadium_id JOIN T2 AS T3 ON T1.year BETWEEN 2014 AND 2015", "gen_seconds": 3.0315550999998777}
+{"idx": 48, "db_id": "pets_1", "raw": "SELECT min(weight) FROM pets WHERE pet_type = \"Dog\" AND age = ( SELECT max(age) FROM pets )", "gen_seconds": 1.2893220000000838}
+{"idx": 49, "db_id": "pets_1", "raw": "SELECT max(weight) , pet_type FROM pets GROUP BY pet_type", "gen_seconds": 0.668665200000305}
+{"idx": 52, "db_id": "pets_1", "raw": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid = t2.stuid WHERE T1.age > 20", "gen_seconds": 1.7115168000000267}
+{"idx": 54, "db_id": "pets_1", "raw": "SELECT count(*) FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid = t2.stuid JOIN pets AS T3 ON T2.petid = T3.petid WHERE T1.sex = \"F\" AND T3.pettype = \"Dog\"", "gen_seconds": 3.2133484000000863}
+{"idx": 55, "db_id": "pets_1", "raw": "SELECT count(DISTINCT pet_type) FROM Pets", "gen_seconds": 0.5693949000001339}
+{"idx": 69, "db_id": "pets_1", "raw": "SELECT pet_id , weight FROM Pets WHERE pet_age > 1", "gen_seconds": 0.7002987999999277}
+{"idx": 72, "db_id": "pets_1", "raw": "SELECT avg(age) , max(age) , pettype FROM student AS T1 JOIN has_pet AS T2 ON T1.stuid = t2.stuid GROUP BY pettype", "gen_seconds": 1.8089624999997795}
+{"idx": 80, "db_id": "pets_1", "raw": "SELECT T1.StuID , count(*) FROM Students AS T1 JOIN Has_pet AS T2 ON T1.StuID = T2.StuID GROUP BY T1.StuID", "gen_seconds": 2.1460855999998785}
+{"idx": 90, "db_id": "car_1", "raw": "SELECT T1.continentid , T2.Continent , count(*) FROM CONTINENTS AS T1 JOIN Countries AS T2 ON T1.continuid = T2.continent GROUP BY T1.continuid", "gen_seconds": 2.3892894000000524}
+{"idx": 91, "db_id": "car_1", "raw": "SELECT count(*) FROM countries", "gen_seconds": 0.31862360000013723}
+{"idx": 98, "db_id": "car_1", "raw": "SELECT T1.Model FROM model_list AS T1 JOIN cars_data AS T2 ON T1.Modelid = T2.Makeid WHERE T2.Weight < ( SELECT avg(T3.Weight) FROM cars_data AS T3 )", "gen_seconds": 2.2730547000001025}
+{"idx": 100, "db_id": "car_1", "raw": "SELECT T2.FullName FROM cars_data AS T1 JOIN car_makers AS T2 ON T1.Maker = T2.Id WHERE T1.Year = 1970", "gen_seconds": 2.0847177999999076}
+{"idx": 104, "db_id": "car_1", "raw": "SELECT DISTINCT T2.Model FROM cars_data AS T1 JOIN model_list AS T2 ON T1.Model = T2.Model WHERE T1.Year > 1980", "gen_seconds": 1.9131906999996318}
+{"idx": 112, "db_id": "car_1", "raw": "SELECT accelerate FROM cars_data WHERE make = \"amc\" AND model = \"hornet sportabout\"", "gen_seconds": 1.1120546000001923}
+{"idx": 114, "db_id": "car_1", "raw": "SELECT count(*) FROM car_makers WHERE country = \"France\"", "gen_seconds": 0.7159968000000845}
+{"idx": 115, "db_id": "car_1", "raw": "SELECT count(*) FROM countries AS T1 JOIN model_list AS T2 ON T1.CountryID = T2.Maker WHERE T1.Continent = \"USA\"", "gen_seconds": 1.7814182000001892}
+{"idx": 116, "db_id": "car_1", "raw": "SELECT COUNT(*) FROM countries AS T1 JOIN model_list AS T2 ON T1.CountryID = T2.Maker WHERE T1.Continent = \"United States\"", "gen_seconds": 1.808551399999942}
+{"idx": 118, "db_id": "car_1", "raw": "SELECT avg(mpg) FROM cars_data WHERE cylinders = 4", "gen_seconds": 0.8056585999997878}
+{"idx": 122, "db_id": "car_1", "raw": "SELECT T1.FullName , T2.Model FROM car_makers AS T1 JOIN model_list AS T2 ON T1.id = T2.maker", "gen_seconds": 1.7394986999997855}
+{"idx": 141, "db_id": "car_1", "raw": "SELECT T1.Model FROM model_list AS T1 JOIN car_names AS T2 ON T1.Model = T2.Model GROUP BY T1.Model ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 1.9353303000002597}
+{"idx": 151, "db_id": "car_1", "raw": "SELECT DISTINCT T1.Model FROM model_list AS T1 JOIN car_makers AS T2 ON T1.Maker = T2.Id WHERE T2.FullName = \"General Motors\" OR T1.Weight > 3500", "gen_seconds": 2.465793300000314}
+{"idx": 156, "db_id": "car_1", "raw": "SELECT horsepower FROM cars_data ORDER BY accelerate DESC LIMIT 1", "gen_seconds": 0.708218200000374}
+{"idx": 158, "db_id": "car_1", "raw": "SELECT T1.Cylinders FROM cars_data AS T1 JOIN car_names AS T2 ON T1.MakeID = T2.MakeID WHERE T2.Model = \"Volvo\" ORDER BY T1.Accelerate LIMIT 1", "gen_seconds": 2.3716866999998274}
+{"idx": 162, "db_id": "car_1", "raw": "SELECT count(*) FROM car_makers GROUP BY country HAVING count(*) > 2", "gen_seconds": 0.928921199999877}
+{"idx": 164, "db_id": "car_1", "raw": "SELECT count(*) FROM cars_data WHERE Cylinders > 6", "gen_seconds": 0.806366799999978}
+{"idx": 173, "db_id": "car_1", "raw": "SELECT countryname FROM countries EXCEPT SELECT t1.countryname FROM countries AS t1 JOIN car_makers AS t2 ON t1.continent = t2.continent", "gen_seconds": 1.8564461999999367}
+{"idx": 183, "db_id": "flight_2", "raw": "SELECT T1.Airline , T1.Abbreviation FROM airlines AS T1 JOIN Flights AS T2 ON T1.uid = T2.Airline WHERE T1.country = 'USA'", "gen_seconds": 2.212420800000018}
+{"idx": 186, "db_id": "flight_2", "raw": "SELECT T1.AirportCode , T2.AirportName FROM airports AS T1 JOIN cities AS T2 ON T1.City = T2.City WHERE T2.City = \"Anthony\"", "gen_seconds": 2.07829189999984}
+{"idx": 187, "db_id": "flight_2", "raw": "SELECT count(*) FROM airlines", "gen_seconds": 0.3376511000001301}
+{"idx": 206, "db_id": "flight_2", "raw": "SELECT count(*) FROM Flights AS T1 JOIN airports AS T2 ON T1.DestAirport = T2.AirportCode WHERE T2.AirportName = \"ATO\"", "gen_seconds": 2.000038399999994}
+{"idx": 207, "db_id": "flight_2", "raw": "SELECT count(*) FROM airports AS T1 JOIN Flights AS T2 ON T1.AirportCode = T2.SourceAirport WHERE T1.City = \"Aberdeen\"", "gen_seconds": 1.8509315999999671}
+{"idx": 208, "db_id": "flight_2", "raw": "SELECT count(*) FROM Flights AS T1 JOIN airports AS T2 ON T1.SourceAirport = T2.AirportCode WHERE T2.City = \"Aberdeen\"", "gen_seconds": 1.8157630000000609}
+{"idx": 213, "db_id": "flight_2", "raw": "SELECT count(*) FROM Flights AS T1 JOIN Airlines AS T2 ON T1.Airline = T2.Abbreviation WHERE T2.Airline = \"JetBlue Airways\"", "gen_seconds": 2.0361785000000054}
+{"idx": 219, "db_id": "flight_2", "raw": "SELECT count(*) FROM airports AS T1 JOIN Flights AS T2 ON T1.AirportCode = T2.DestAirport WHERE T1.City = \"Aberdeen\" AND T1.Abbreviation = \"United\"", "gen_seconds": 2.514752900000076}
+{"idx": 220, "db_id": "flight_2", "raw": "SELECT count(*) FROM Flights AS T1 JOIN airports AS T2 ON T1.DestAirport = T2.AirportCode WHERE T2.City = \"Aberdeen\" AND T1.Airline = \"United Airlines\"", "gen_seconds": 2.5158784000000196}
+{"idx": 227, "db_id": "flight_2", "raw": "SELECT T1.AirportCode FROM airports AS T1 JOIN Flights AS T2 ON T1.AirportCode = T2.DestAirport GROUP BY T1.AirportCode ORDER BY count(*) ASC LIMIT 1", "gen_seconds": 2.45584080000026}
+{"idx": 230, "db_id": "flight_2", "raw": "SELECT T1.Airline FROM Airlines AS T1 JOIN Flights AS T2 ON T1.uid = T2.Airline GROUP BY T1.Airline ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 2.1222953999999845}
+{"idx": 246, "db_id": "flight_2", "raw": "SELECT FlightNo FROM Flights AS T1 JOIN Airlines AS T2 ON T1.Airline = T2.uid WHERE T2.Abbreviation = \"United\"", "gen_seconds": 1.7497278999999253}
+{"idx": 250, "db_id": "flight_2", "raw": "SELECT T1.FlightNo FROM Flights AS T1 JOIN airports AS T2 ON T1.DestAirport = T2.AirportCode WHERE T2.AirportName = \"APG\"", "gen_seconds": 2.1930515999997624}
+{"idx": 256, "db_id": "flight_2", "raw": "SELECT count(*) FROM airports WHERE airportname = \"Aberdeen\" OR airportname = \"Abilene\"", "gen_seconds": 1.2123544000000948}
+{"idx": 257, "db_id": "flight_2", "raw": "SELECT airportname FROM airports EXCEPT SELECT T1.airportname FROM airports AS T1 JOIN Flights AS T2 ON T1.Airportcode = T2.Destairport OR T1.Airportcode = T2.Sourceairport", "gen_seconds": 2.5008772999999564}
+{"idx": 263, "db_id": "employee_hire_evaluation", "raw": "SELECT count(*) , city FROM employee GROUP BY city", "gen_seconds": 0.5464251999997032}
+{"idx": 269, "db_id": "employee_hire_evaluation", "raw": "SELECT manager_name , district FROM shop ORDER BY number_products DESC LIMIT 1", "gen_seconds": 0.8118392999999742}
+{"idx": 272, "db_id": "employee_hire_evaluation", "raw": "SELECT min(Number_products) , max(Number_products) FROM shop", "gen_seconds": 0.7066242000000784}
+{"idx": 274, "db_id": "employee_hire_evaluation", "raw": "SELECT name , LOCATION , district FROM shop ORDER BY Number_products DESC", "gen_seconds": 0.7368363999999019}
+{"idx": 276, "db_id": "employee_hire_evaluation", "raw": "SELECT name FROM shop WHERE number_products > (SELECT avg(number_products) FROM shop)", "gen_seconds": 0.9751157000000603}
+{"idx": 288, "db_id": "employee_hire_evaluation", "raw": "SELECT T2.Name , count(*) FROM hiring AS T1 JOIN shop AS T2 ON T1.Shop_ID = T2.Shop_ID GROUP BY T2.Shop_ID", "gen_seconds": 1.9846597999999176}
+{"idx": 293, "db_id": "employee_hire_evaluation", "raw": "SELECT DISTINCT T2.District FROM shop AS T1 JOIN shop AS T2 ON T1.Shop_id = T2.Shop_id WHERE T1.Number_products < 3000 INTERSECT SELECT DISTINCT T2.District FROM shop AS T1 JOIN shop AS T2 ON T1.Shop_id = T2.Shop_id WHERE T1.Number_products > 10000", "gen_seconds": 4.149962599999981}
+{"idx": 302, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T3.document_name , T2.template_id FROM documents AS T1 JOIN templates AS T2 ON T1.template_id = T2.template_id JOIN paragraphs AS T3 ON T1.document_id = T3.document_id WHERE T1.document_description LIKE '%w%'", "gen_seconds": 2.74495990000014}
+{"idx": 307, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT count(*) FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id WHERE T1.template_type_code = \"PPT\"", "gen_seconds": 1.7014485999998215}
+{"idx": 308, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT count(*) FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id WHERE t1.template_type_code = \"PPT\"", "gen_seconds": 1.810435200000029}
+{"idx": 309, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.template_id , count(*) FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id GROUP BY T1.template_id", "gen_seconds": 1.762602600000264}
+{"idx": 310, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.template_id , count(*) FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id GROUP BY T1.template_id", "gen_seconds": 1.7183217000001605}
+{"idx": 312, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.template_id , T1.template_type_code FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id GROUP BY T1.template_id ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 2.79714660000036}
+{"idx": 330, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT count(*) , template_type_code FROM templates GROUP BY template_type_code", "gen_seconds": 1.1069095000002562}
+{"idx": 334, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT template_type_code FROM templates GROUP BY template_type_code HAVING count(*) < 3", "gen_seconds": 1.3555357000000186}
+{"idx": 340, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T3.document_name FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id JOIN paragraphs AS T3 ON T2.document_id = T3.document_id WHERE T1.template_type_code = \"BK\"", "gen_seconds": 3.5011695000002874}
+{"idx": 341, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.template_type_code , count(*) FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id GROUP BY T1.template_type_code", "gen_seconds": 2.698405200000252}
+{"idx": 342, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.template_type_code , count(*) FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id GROUP BY T1.template_type_code", "gen_seconds": 4.51068720000012}
+{"idx": 343, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.template_type_code FROM templates AS T1 JOIN documents AS T2 ON T1.template_id = T2.template_id GROUP BY T1.template_type_code ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 5.72779969999965}
+{"idx": 345, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT template_type_code FROM templates EXCEPT SELECT template_type_code FROM documents", "gen_seconds": 1.4667539000001852}
+{"idx": 355, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.template_id FROM templates AS T1 JOIN ref_template_types AS T2 ON T1.template_type_code = T2.template_type_code WHERE T2.template_type_description = \"Presentation\"", "gen_seconds": 3.6144398000001274}
+{"idx": 365, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T3.paragraph_text FROM documents AS T1 JOIN paragraphs AS T2 ON T1.document_id = T2.document_id JOIN paragraphs AS T3 ON T2.paragraph_id = T3.paragraph_id WHERE T1.document_name = \"Customer reviews\"", "gen_seconds": 3.2304285999998683}
+{"idx": 377, "db_id": "cre_Doc_Template_Mgt", "raw": "SELECT T1.document_id FROM documents AS T1 JOIN paragraphs AS T2 ON T1.document_id = T2.document_id GROUP BY T1.document_id HAVING count(*) BETWEEN 1 AND 2", "gen_seconds": 4.054906800000026}
+{"idx": 385, "db_id": "course_teach", "raw": "SELECT Age , Hometown FROM teacher", "gen_seconds": 0.7768912000001365}
+{"idx": 387, "db_id": "course_teach", "raw": "SELECT Name FROM teacher WHERE Hometown != 'Little Lever Urban District'", "gen_seconds": 1.3514592999999877}
+{"idx": 389, "db_id": "course_teach", "raw": "SELECT Name FROM teacher WHERE age = \"32\" OR age = \"33\"", "gen_seconds": 1.7809830999999576}
+{"idx": 391, "db_id": "course_teach", "raw": "SELECT Hometown FROM teacher ORDER BY Age LIMIT 1", "gen_seconds": 0.9893492000001061}
+{"idx": 394, "db_id": "course_teach", "raw": "SELECT count(*) , hometown FROM teacher GROUP BY hometown", "gen_seconds": 1.4989242999999988}
+{"idx": 403, "db_id": "course_teach", "raw": "SELECT T2.Name FROM course AS T1 JOIN teacher AS T2 ON T1.Course_ID = T2.Teacher_ID WHERE T1.Course = 'Math'", "gen_seconds": 3.402984800000013}
+{"idx": 423, "db_id": "museum_visit", "raw": "SELECT T1.name , T2.age FROM visitor AS T1 JOIN visit AS T2 ON T1.id = T2.visitor_id GROUP BY T1.id ORDER BY sum(T2.num_of_ticket) DESC LIMIT 1", "gen_seconds": 5.062734399999954}
+{"idx": 425, "db_id": "museum_visit", "raw": "SELECT sum(T2.Total_spent) FROM visitor AS T1 JOIN visit AS T2 ON T1.ID = T2.visitor_id WHERE T1.Level_of_membership = 1", "gen_seconds": 2.8849543999999696}
+{"idx": 426, "db_id": "museum_visit", "raw": "SELECT T3.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID = T2.Museum_ID JOIN visitor AS T3 ON T1.visitor_id = T3.id WHERE T2.Open_year < '2009' INTERSECT SELECT T3.Name FROM visit AS T1 JOIN museum AS T2 ON T1.Museum_ID = T2.Museum_ID JOIN visitor AS T3 ON T1.visitor_id = T3.id WHERE T2.Open_year > '2011'", "gen_seconds": 7.879853900000398}
+{"idx": 433, "db_id": "wta_1", "raw": "SELECT first_name , birth_date FROM players WHERE country_code = 'USA'", "gen_seconds": 1.1070396000000073}
+{"idx": 436, "db_id": "wta_1", "raw": "SELECT avg(loser_age) , avg(winner_age) FROM MATCHES", "gen_seconds": 1.2169163999997181}
+{"idx": 443, "db_id": "wta_1", "raw": "SELECT count(DISTINCT loser_name) FROM matches", "gen_seconds": 0.7659908999999061}
+{"idx": 444, "db_id": "wta_1", "raw": "SELECT count(DISTINCT loser_name) FROM matches", "gen_seconds": 0.7517268000001422}
+{"idx": 450, "db_id": "wta_1", "raw": "SELECT count(*) FROM matches WHERE YEAR = 2013 OR YEAR = 2016", "gen_seconds": 1.3776299999999537}
+{"idx": 452, "db_id": "wta_1", "raw": "SELECT T1.first_name , T2.country_code FROM players AS T1 JOIN MATCHES AS T2 ON T1.player_id = T2.winner_id WHERE T2.tourney_name = 'WTA Championships' INTERSECT SELECT T1.first_name , T2.country_code FROM players AS T1 JOIN MATCHES AS T2 ON T1.player_id = T2.winner_id WHERE T2.tourney_name = 'Australian Open'", "gen_seconds": 6.551019200000155}
+{"idx": 454, "db_id": "wta_1", "raw": "SELECT first_name , country_code FROM players ORDER BY birth_date DESC LIMIT 1", "gen_seconds": 1.155794600000263}
+{"idx": 457, "db_id": "wta_1", "raw": "SELECT T1.first_name , T1.last_name FROM players AS T1 JOIN MATCHES AS T2 ON T1.player_id = T2.loser_id WHERE T2.winner_hand = 'L' ORDER BY T1.birth_date", "gen_seconds": 3.7621798000000126}
+{"idx": 462, "db_id": "wta_1", "raw": "SELECT YEAR FROM MATCHES GROUP BY YEAR ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 1.0360006999999314}
+{"idx": 470, "db_id": "wta_1", "raw": "SELECT T1.first_name , avg(T2.ranking_points) FROM players AS T1 JOIN rankings AS T2 ON T1.player_id = T2.player_id GROUP BY T1.first_name", "gen_seconds": 2.4935818999997537}
+{"idx": 471, "db_id": "wta_1", "raw": "SELECT sum(ranking_points) , T1.first_name FROM players AS T1 JOIN rankings AS T2 ON T1.player_id = T2.player_id GROUP BY T1.first_name", "gen_seconds": 2.9530589000000873}
+{"idx": 486, "db_id": "wta_1", "raw": "SELECT count(*) FROM MATCHES AS T1 JOIN players AS T2 ON T1.winner_id = T2.player_id WHERE T2.hand = 'left' AND T1.tourney_name LIKE '%WTA Championships%'", "gen_seconds": 2.479921000000104}
+{"idx": 491, "db_id": "battle_death", "raw": "SELECT count(*) FROM ship WHERE disposition_of_ship = \"captured\"", "gen_seconds": 1.1882660999999644}
+{"idx": 494, "db_id": "battle_death", "raw": "SELECT max(killed) , min(killed) FROM DEATH", "gen_seconds": 1.01354050000009}
+{"idx": 502, "db_id": "battle_death", "raw": "SELECT count(DISTINCT result) FROM battle", "gen_seconds": 0.5559786999997414}
+{"idx": 507, "db_id": "student_transcripts_tracking", "raw": "SELECT * FROM Addresses", "gen_seconds": 0.3892289000000346}
+{"idx": 509, "db_id": "student_transcripts_tracking", "raw": "SELECT count(*) FROM COURSES", "gen_seconds": 0.49364409999998315}
+{"idx": 520, "db_id": "student_transcripts_tracking", "raw": "SELECT count(DISTINCT degree_summary_name) FROM degree_programs", "gen_seconds": 1.269459900000129}
+{"idx": 526, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.course_name , T1.course_id FROM courses AS T1 JOIN sections AS T2 ON T1.course_id = T2.course_id GROUP BY T1.course_id HAVING count(*) < 2", "gen_seconds": 3.0578615999997965}
+{"idx": 527, "db_id": "student_transcripts_tracking", "raw": "SELECT section_name FROM sections ORDER BY section_name DESC", "gen_seconds": 0.7114390000001549}
+{"idx": 529, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.semester_name , T1.semester_id FROM semesters AS T1 JOIN student_enrolment AS T2 ON T1.semester_id = T2.semester_id GROUP BY T1.semester_id ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 3.549141999999847}
+{"idx": 532, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.department_description FROM departments AS T1 JOIN degree_programs AS T2 ON T1.department_id = T2.department_id WHERE T2.degree_summary_name LIKE \"%computer%\"", "gen_seconds": 2.153378800000155}
+{"idx": 540, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.degree_program_id , T2.degree_summary_name FROM Student_Enrolment AS T1 JOIN Degree_Programs AS T2 ON T1.degree_program_id = T2.degree_program_id GROUP BY T1.degree_program_id ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 3.3714442000000417}
+{"idx": 545, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.course_name FROM courses AS T1 JOIN student_enrolment_courses AS T2 ON T1.course_id = T2.course_id", "gen_seconds": 1.6715565999998034}
+{"idx": 548, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.course_name FROM courses AS T1 JOIN student_enrolment_courses AS T2 ON T1.course_id = T2.course_id GROUP BY T1.course_id ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 2.4824829999997746}
+{"idx": 554, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.cell_mobile_number FROM students AS T1 JOIN addresses AS T2 ON T1.current_address_id = T2.address_id WHERE T1.first_name = \"Timothy\" AND T1.last_name = \"Ward\"", "gen_seconds": 2.94600279999986}
+{"idx": 569, "db_id": "student_transcripts_tracking", "raw": "SELECT max(transcript_date) FROM transcripts", "gen_seconds": 0.6055804000002354}
+{"idx": 571, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.student_enrolment_id , max(T2.transcript_date) FROM Student_Enrolment AS T1 JOIN Transcripts AS T2 ON T1.transcript_id = T2.transcript_id GROUP BY T1.student_enrolment_id", "gen_seconds": 3.0205949999999575}
+{"idx": 581, "db_id": "student_transcripts_tracking", "raw": "SELECT * FROM sections WHERE section_name = \"H\"", "gen_seconds": 0.6824126999999862}
+{"idx": 583, "db_id": "student_transcripts_tracking", "raw": "SELECT T1.first_name FROM STUDENTS AS T1 JOIN addresses AS T2 ON T1.current_address_id = T2.address_id WHERE T2.country = \"Haiti\" OR T1.cell_mobile_number = \"09700166582\"", "gen_seconds": 3.3369112999998833}
+{"idx": 588, "db_id": "tvshow", "raw": "SELECT T2.Title FROM Cartoon AS T1 JOIN TV_channel AS T2 ON T1.Channel = T2.id WHERE T1.directed_by = 'Ben Jones'", "gen_seconds": 2.304551100000026}
+{"idx": 590, "db_id": "tvshow", "raw": "SELECT count(*) FROM Cartoon WHERE Written_by = 'Joseph Kuhr'", "gen_seconds": 1.0727022000000943}
+{"idx": 592, "db_id": "tvshow", "raw": "SELECT title , directed_by FROM cartoon ORDER BY original_air_date", "gen_seconds": 0.6748896000003697}
+{"idx": 600, "db_id": "tvshow", "raw": "SELECT CONTENT FROM TV_CHANNEL WHERE Series_Name = 'Sky Radio'", "gen_seconds": 0.7530286999999589}
+{"idx": 604, "db_id": "tvshow", "raw": "SELECT count(*) FROM TV_CHANNEL WHERE Language = 'english'", "gen_seconds": 0.7387473999997383}
+{"idx": 608, "db_id": "tvshow", "raw": "SELECT count(*) , Language FROM TV_channel GROUP BY Language", "gen_seconds": 0.7217316999999639}
+{"idx": 621, "db_id": "tvshow", "raw": "SELECT Weekly_Rank FROM TV_series WHERE Episode = \"A Love of a Lifetime\"", "gen_seconds": 1.0086200999999164}
+{"idx": 636, "db_id": "tvshow", "raw": "SELECT country FROM TV_channel EXCEPT SELECT T2.country FROM cartoon AS T1 JOIN tv_channel AS T2 ON T1.channel = T2.id WHERE T1.directed_by = 'Todd Casey'", "gen_seconds": 2.3612271000001783}
+{"idx": 638, "db_id": "tvshow", "raw": "SELECT T2.series_name , T3.Country FROM Cartoon AS T1 JOIN TV_channel AS T2 ON T1.Channel = T2.id WHERE T1.directed_by = 'Ben Jones' INTERSECT SELECT T2.series_name , T3.Country FROM Cartoon AS T1 JOIN TV_channel AS T2 ON T1.Channel = T2.id WHERE T1.directed_by = 'Michael Chang'", "gen_seconds": 4.234585500000321}
+{"idx": 639, "db_id": "tvshow", "raw": "SELECT Pixel_aspect_ratio_PAR , country FROM TV_channel WHERE language != 'english'", "gen_seconds": 1.0191362000000481}
+{"idx": 641, "db_id": "tvshow", "raw": "SELECT country , count(*) FROM TV_channel GROUP BY country HAVING count(*) > 2", "gen_seconds": 1.1127658000000338}
+{"idx": 644, "db_id": "tvshow", "raw": "SELECT id FROM TV_channel EXCEPT SELECT T2.id FROM cartoon AS T1 JOIN tv_channel AS T2 ON T1.channel = T2.id WHERE T1.directed_by = 'Ben Jones'", "gen_seconds": 2.2064001999997345}
+{"idx": 647, "db_id": "poker_player", "raw": "SELECT count(*) FROM poker_player", "gen_seconds": 0.41638689999990675}
+{"idx": 654, "db_id": "poker_player", "raw": "SELECT avg(Earnings) FROM poker_player", "gen_seconds": 0.5860858999999436}
+{"idx": 663, "db_id": "poker_player", "raw": "SELECT T2.Name FROM poker_player AS T1 JOIN people AS T2 ON T1.People_ID = T2.People_ID ORDER BY T1.Final_Table_Made ASC", "gen_seconds": 2.02549769999996}
+{"idx": 664, "db_id": "poker_player", "raw": "SELECT T2.Name FROM poker_player AS T1 JOIN people AS T2 ON T1.People_ID = T2.People_ID ORDER BY T1.Final_Table_Made ASC", "gen_seconds": 1.9898512999998275}
+{"idx": 676, "db_id": "poker_player", "raw": "SELECT Nationality FROM people GROUP BY Nationality ORDER BY COUNT(*) DESC LIMIT 1", "gen_seconds": 0.9251932000001943}
+{"idx": 680, "db_id": "poker_player", "raw": "SELECT name , birth_date FROM people ORDER BY name", "gen_seconds": 0.7094677999998567}
+{"idx": 682, "db_id": "poker_player", "raw": "SELECT name FROM people WHERE nationality != 'Russia'", "gen_seconds": 0.59337639999967}
+{"idx": 685, "db_id": "poker_player", "raw": "SELECT count(DISTINCT Nationality) FROM people", "gen_seconds": 0.5566461000003073}
+{"idx": 688, "db_id": "voter_1", "raw": "SELECT contestant_number , contestant_name FROM contestants ORDER BY contestant_name DESC", "gen_seconds": 0.7754445000000487}
+{"idx": 694, "db_id": "voter_1", "raw": "SELECT T1.contestant_number , T1.contestant_name FROM CONTESTANTS AS T1 JOIN VOTES AS T2 ON T1.contestant_number = T2.contestant_number GROUP BY T1.contestant_number HAVING COUNT(*) >= 2", "gen_seconds": 3.2267182000000503}
+{"idx": 698, "db_id": "voter_1", "raw": "SELECT T1.area_code FROM area_code_state AS T1 JOIN votes AS T2 ON T1.state = T2.state GROUP BY T1.area_code ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 2.3708012000001872}
+{"idx": 710, "db_id": "world_1", "raw": "SELECT T2.Region FROM city AS T1 JOIN country AS T2 ON T1.Countrycode = T2.Code WHERE T1.Name = \"Kabul\"", "gen_seconds": 1.9953944999997475}
+{"idx": 718, "db_id": "world_1", "raw": "SELECT avg(LifeExpectancy) FROM country WHERE Region = \"Central Africa\"", "gen_seconds": 0.9682238000000325}
+{"idx": 723, "db_id": "world_1", "raw": "SELECT sum(population) , max(GNP) FROM country WHERE continent = \"Asia\"", "gen_seconds": 1.0030526999998983}
+{"idx": 727, "db_id": "world_1", "raw": "SELECT sum(surfacearea) FROM country WHERE continent = \"Asia\" OR continent = \"Europe\"", "gen_seconds": 1.0553125999999793}
+{"idx": 729, "db_id": "world_1", "raw": "SELECT sum(population) FROM city WHERE district = \"Gelderland\"", "gen_seconds": 0.8480152000001908}
+{"idx": 735, "db_id": "world_1", "raw": "SELECT count(DISTINCT governmentform) FROM country WHERE continent = \"Africa\"", "gen_seconds": 0.9358587000001535}
+{"idx": 741, "db_id": "world_1", "raw": "SELECT T1.name FROM country AS T1 JOIN countrylanguage AS T2 ON T1.code = T2.countrycode GROUP BY T2.countrycode ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 2.1832726000002367}
+{"idx": 756, "db_id": "world_1", "raw": "SELECT T2.Language FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode WHERE T1.Continent = \"Asia\" ORDER BY T2.Percentage DESC LIMIT 1", "gen_seconds": 2.4819863000002442}
+{"idx": 762, "db_id": "world_1", "raw": "SELECT T1.name , T1.population , T1.lifeexpectancy FROM country AS T1 JOIN city AS T2 ON T1.code = T2.countrycode WHERE T1.continent = \"Asia\" ORDER BY T1.surfacearea DESC LIMIT 1", "gen_seconds": 2.743461500000194}
+{"idx": 769, "db_id": "world_1", "raw": "SELECT T2.Language FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode WHERE T1.HeadOfState = \"Beatrix\"", "gen_seconds": 2.078359599999658}
+{"idx": 770, "db_id": "world_1", "raw": "SELECT count(DISTINCT T1.language) FROM countrylanguage AS T1 JOIN country AS T2 ON T1.countrycode = T2.code WHERE T2.indepyear < 1930 AND T1.isofficial = 'Yes'", "gen_seconds": 2.852865500000007}
+{"idx": 771, "db_id": "world_1", "raw": "SELECT count(DISTINCT T1.language) FROM countrylanguage AS T1 JOIN country AS T2 ON T1.countrycode = T2.code WHERE T2.indepyear < 1930", "gen_seconds": 2.1484498999998323}
+{"idx": 772, "db_id": "world_1", "raw": "SELECT name FROM country WHERE surfacearea > ( SELECT max(surfacearea) FROM country AS T1 JOIN CONTINENT AS T2 ON T1.continent = T2.name WHERE continent = 'Europe' )", "gen_seconds": 2.2715102000001934}
+{"idx": 779, "db_id": "world_1", "raw": "SELECT code FROM country EXCEPT SELECT T1.code FROM country AS T1 JOIN countrylanguage AS T2 ON T1.code = T2.countrycode WHERE T2.language = 'english'", "gen_seconds": 2.047145300000011}
+{"idx": 786, "db_id": "world_1", "raw": "SELECT DISTINCT T1.name FROM city AS T1 JOIN countrylanguage AS T2 ON T1.countrycode = T2.countrycode WHERE T2.language = \"Chinese\" AND T2.isofficial = \"Yes\" AND T1.countrycode IN ( SELECT code FROM country WHERE continent = \"Asia\" )", "gen_seconds": 3.4478314000002683}
+{"idx": 790, "db_id": "world_1", "raw": "SELECT T1.name , T1.population , T1.headofstate FROM country AS T1 JOIN countrylanguage AS T2 ON T1.code = T2.countrycode WHERE T1.surfacearea = ( SELECT max(surfacearea) FROM country )", "gen_seconds": 2.703041299999768}
+{"idx": 793, "db_id": "world_1", "raw": "SELECT T1.name , count(*) FROM country AS T1 JOIN countrylanguage AS T2 ON T1.code = T2.countrycode GROUP BY T1.name HAVING count(*) > 2", "gen_seconds": 2.144366600000012}
+{"idx": 795, "db_id": "world_1", "raw": "SELECT count(*) , T1.District FROM city AS T1 JOIN ( SELECT District , avg(Population) FROM city GROUP BY District ) AS T2 ON T1.District = T2.District WHERE T1.Population > T2.avg(Population)", "gen_seconds": 2.9086707000001297}
+{"idx": 798, "db_id": "world_1", "raw": "SELECT avg(LifeExpectancy) , sum(Population) , T1.Continent FROM country AS T1 JOIN city AS T2 ON T1.Code = T2.CountryCode GROUP BY T1.Continent HAVING avg(LifeExpectancy) < 72", "gen_seconds": 2.978103999999803}
+{"idx": 799, "db_id": "world_1", "raw": "SELECT T1.Continent , sum(T2.Population) / count(*) FROM country AS T1 JOIN city AS T2 ON T1.Code = T2.Countrycode WHERE avg(LifeExpectancy) < 72 GROUP BY T1.Continent", "gen_seconds": 2.677466699999968}
+{"idx": 800, "db_id": "world_1", "raw": "SELECT name , surfacearea FROM country ORDER BY surfacearea DESC LIMIT 5", "gen_seconds": 0.9067409999997835}
+{"idx": 806, "db_id": "world_1", "raw": "SELECT count(*) FROM country WHERE continent = \"Asia\"", "gen_seconds": 0.6267775999999685}
+{"idx": 816, "db_id": "world_1", "raw": "SELECT T1.Name , T2.Language FROM country AS T1 JOIN countrylanguage AS T2 ON T1.Code = T2.CountryCode ORDER BY T2.Percentage DESC LIMIT 1", "gen_seconds": 2.01964659999976}
+{"idx": 827, "db_id": "orchestra", "raw": "SELECT name FROM conductor WHERE nationality != 'USA'", "gen_seconds": 0.6185554000003322}
+{"idx": 830, "db_id": "orchestra", "raw": "SELECT avg(Attendance) FROM show", "gen_seconds": 0.4643744999998489}
+{"idx": 836, "db_id": "orchestra", "raw": "SELECT name FROM conductor ORDER BY YEAR_OF_WORK DESC", "gen_seconds": 0.7799972000002526}
+{"idx": 845, "db_id": "orchestra", "raw": "SELECT T1.Name FROM conductor AS T1 JOIN orchestra AS T2 ON T1.Conductor_ID = T2.Conductor_ID GROUP BY T1.Conductor_ID ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 3.095302199999878}
+{"idx": 847, "db_id": "orchestra", "raw": "SELECT T1.Name FROM conductor AS T1 JOIN orchestra AS T2 ON T1.Conductor_ID = T2.Conductor_ID WHERE T2.Year_of_Founded > 2008", "gen_seconds": 2.8462476999998216}
+{"idx": 853, "db_id": "orchestra", "raw": "SELECT Record_Company FROM orchestra GROUP BY Record_Company ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 1.2886684999998579}
+{"idx": 854, "db_id": "orchestra", "raw": "SELECT ORCHESTRA FROM orchestra EXCEPT SELECT T1.Orchestra FROM performance AS T1 JOIN show AS T2 ON T1.Performance_ID = T2.Performance_ID", "gen_seconds": 2.4941358999999466}
+{"idx": 859, "db_id": "orchestra", "raw": "SELECT count(*) FROM orchestra WHERE Major_Record_Format = 'CD' OR Major_Record_Format = 'DVD'", "gen_seconds": 1.2736518000001524}
+{"idx": 870, "db_id": "network_1", "raw": "SELECT name FROM HIGH SCHOOLER WHERE grade = 10", "gen_seconds": 0.8571501000001263}
+{"idx": 871, "db_id": "network_1", "raw": "SELECT name FROM HIGH SCHOOLER WHERE grade = 10", "gen_seconds": 0.8906692999998995}
+{"idx": 877, "db_id": "network_1", "raw": "SELECT grade , count(*) FROM Highschooler GROUP BY grade", "gen_seconds": 0.7783007999996698}
+{"idx": 878, "db_id": "network_1", "raw": "SELECT grade FROM HIGH SCHOOLER GROUP BY grade ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 1.0878390000002582}
+{"idx": 889, "db_id": "network_1", "raw": "SELECT T1.name FROM Highschooler AS T1 JOIN Friend AS T2 ON T1.id = T2.student_id GROUP BY T2.student_id HAVING count(*) >= 3", "gen_seconds": 2.513524700000289}
+{"idx": 896, "db_id": "network_1", "raw": "SELECT name FROM HIGHschooler WHERE id NOT IN ( SELECT student_id FROM Friend )", "gen_seconds": 1.086571499999991}
+{"idx": 897, "db_id": "network_1", "raw": "SELECT name FROM highschooler WHERE id NOT IN ( SELECT student_id FROM friend )", "gen_seconds": 1.212683300000208}
+{"idx": 899, "db_id": "network_1", "raw": "SELECT student_id FROM Friend INTERSECT SELECT liked_id FROM likes", "gen_seconds": 0.9509711000000607}
+{"idx": 909, "db_id": "network_1", "raw": "SELECT T1.name FROM highschooler AS T1 JOIN likes AS T2 ON T1.id = T2.student_id GROUP BY T2.student_id HAVING count(*) >= 2", "gen_seconds": 2.58441589999984}
+{"idx": 913, "db_id": "network_1", "raw": "SELECT count(*) FROM HIGHSHOULER AS T1 JOIN LIKES AS T2 ON T1.id = T2.student_id WHERE T1.name = 'Kyle'", "gen_seconds": 2.314421200000197}
+{"idx": 916, "db_id": "network_1", "raw": "SELECT min(grade) FROM highschooler WHERE id NOT IN ( SELECT student_id FROM friend )", "gen_seconds": 1.6477607000001626}
+{"idx": 923, "db_id": "dog_kennels", "raw": "SELECT T1.professional_id , T1.last_name , T1.cell_number FROM professionals AS T1 JOIN treatments AS T2 ON T1.professional_id = T2.professional_id WHERE T1.state = \"Indiana\" OR count(*) > 2", "gen_seconds": 3.777035000000069}
+{"idx": 926, "db_id": "dog_kennels", "raw": "SELECT DISTINCT first_name FROM owners EXCEPT SELECT DISTINCT first_name FROM dogs UNION SELECT DISTINCT first_name FROM professionals EXCEPT SELECT DISTINCT first_name FROM dogs", "gen_seconds": 1.944252299999789}
+{"idx": 928, "db_id": "dog_kennels", "raw": "SELECT professional_id , role_code , email_address FROM professionals WHERE professional_id NOT IN ( SELECT professional_id FROM treatments )", "gen_seconds": 1.2668619999999464}
+{"idx": 930, "db_id": "dog_kennels", "raw": "SELECT T1.owner_id , T1.first_name , T1.last_name FROM owners AS T1 JOIN dogs AS T2 ON T1.owner_id = T2.owner_id GROUP BY T1.owner_id ORDER BY count(*) DESC LIMIT 1", "gen_seconds": 2.6044615999999223}
+{"idx": 938, "db_id": "dog_kennels", "raw": "SELECT treatment_type_description FROM treatments GROUP BY treatment_type_code ORDER BY sum(cost_of_treatment) LIMIT 1", "gen_seconds": 1.2688641999998254}
+{"idx": 942, "db_id": "dog_kennels", "raw": "SELECT T1.professional_id , T1.cell_number FROM professionals AS T1 JOIN treatments AS T2 ON T1.professional_id = T2.professional_id GROUP BY T1.professional_id HAVING count(*) >= 2", "gen_seconds": 2.4965391000000636}
+{"idx": 947, "db_id": "dog_kennels", "raw": "SELECT T1.date_of_treatment , T3.first_name FROM treatments AS T1 JOIN professionals AS T2 ON T1.professional_id = T2.professional_id JOIN owners AS T3 ON T2.email_address = T3.email_address", "gen_seconds": 2.823802700000215}
+{"idx": 953, "db_id": "dog_kennels", "raw": "SELECT T1.first_name , T3.name FROM owners AS T1 JOIN dogs AS T2 ON T1.owner_id = T2.owner_id JOIN treatments AS T3 ON T2.dog_id = T3.dog_id", "gen_seconds": 3.054842000000008}
+{"idx": 955, "db_id": "dog_kennels", "raw": "SELECT T1.name , T3.date_of_treatment FROM dogs AS T1 JOIN treatments AS T2 ON T1.dog_id = T2.dog_id JOIN treatment_types AS T3 ON T2.treatment_type_code = T3.treatment_type_code WHERE T1.breed_code IN ( SELECT T1.breed_code FROM dogs AS T1 JOIN breeds AS T2 ON T1.breed_code = T2.breed_code GROUP BY T1.breed_code ORDER BY count(*) DESC LIMIT 1 )", "gen_seconds": 5.939224400000057}
+{"idx": 963, "db_id": "dog_kennels", "raw": "SELECT email_address FROM professionals WHERE state = \"Hawaii\" OR state = \"Wisconsin\"", "gen_seconds": 1.1107741000000715}
+{"idx": 964, "db_id": "dog_kennels", "raw": "SELECT date_arrived , date_departed FROM dogs", "gen_seconds": 0.6516335000001163}
+{"idx": 965, "db_id": "dog_kennels", "raw": "SELECT date_arrived , date_departed FROM dogs", "gen_seconds": 0.6801966000002722}
+{"idx": 966, "db_id": "dog_kennels", "raw": "SELECT count(DISTINCT dog_id) FROM treatments", "gen_seconds": 0.6302811000000474}
+{"idx": 976, "db_id": "dog_kennels", "raw": "SELECT max(cost_of_treatment) FROM treatments", "gen_seconds": 0.6135567999999694}
+{"idx": 991, "db_id": "dog_kennels", "raw": "SELECT charge_type , charge_amount FROM charges", "gen_seconds": 0.5520857999999862}
+{"idx": 995, "db_id": "dog_kennels", "raw": "SELECT email_address , cell_number , home_phone FROM professionals", "gen_seconds": 1.2026387000000796}
+{"idx": 1000, "db_id": "singer", "raw": "SELECT count(*) FROM singer", "gen_seconds": 0.34057709999979124}
+{"idx": 1003, "db_id": "singer", "raw": "SELECT name FROM singer ORDER BY net_worth_millions ASC", "gen_seconds": 0.7368821000000025}
+{"idx": 1005, "db_id": "singer", "raw": "SELECT Birth_Year , Citizenship FROM singer", "gen_seconds": 0.43725439999980154}
+{"idx": 1009, "db_id": "singer", "raw": "SELECT name FROM singer WHERE birth_year = 1948 OR birth_year = 1949", "gen_seconds": 1.486543299999994}
+{"idx": 1013, "db_id": "singer", "raw": "SELECT COUNT(*) , Citizenship FROM singer GROUP BY Citizenship", "gen_seconds": 0.5706033999999818}
+{"idx": 1014, "db_id": "singer", "raw": "SELECT Citizenship FROM singer GROUP BY Citizenship ORDER BY COUNT(*) DESC LIMIT 1", "gen_seconds": 0.839798399999836}
+{"idx": 1032, "db_id": "real_estate_properties", "raw": "SELECT T2.property_type_description FROM Properties AS T1 JOIN Ref_Property_Types AS T2 ON T1.property_type_code = T2.property_type_code", "gen_seconds": 1.6823849000002156}

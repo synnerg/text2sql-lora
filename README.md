@@ -6,7 +6,20 @@ the Spider benchmark. Trained and evaluated entirely on one 8 GB laptop GPU (RTX
 ## Results
 
 <!-- results:start -->
-Not yet measured.
+Slice: `dev200` (200 questions scored).
+
+| Model | Execution accuracy | 95% CI | Correct | p50 latency | p95 latency |
+| --- | --- | --- | --- | --- | --- |
+| Qwen2.5-1.5B-Instruct, zero-shot (transformers fp16) | **47.5%** | 40.7% to 54.4% | 95/200 | 2.56 s | 5.19 s |
+| Qwen2.5-7B-Instruct, zero-shot (Ollama Q4_K_M) | **70.0%** | 63.3% to 75.9% | 140/200 | 0.70 s | 1.83 s |
+| Qwen2.5-1.5B-Instruct + LoRA (this repo, transformers fp16) | **61.5%** | 54.6% to 68.0% | 123/200 | 1.71 s | 3.76 s |
+
+Paired comparisons on the same questions:
+
+| A vs B | Accuracy difference (A - B) | Bootstrap 95% CI | Only A right | Only B right | McNemar p |
+| --- | --- | --- | --- | --- | --- |
+| Qwen2.5-1.5B-Instruct + LoRA (this repo, transformers fp16) vs Qwen2.5-1.5B-Instruct, zero-shot (transformers fp16) | +14.0 pts | +6.5 to +22.0 pts | 47 | 19 | 7.6e-04 |
+| Qwen2.5-1.5B-Instruct + LoRA (this repo, transformers fp16) vs Qwen2.5-7B-Instruct, zero-shot (Ollama Q4_K_M) | -8.5 pts | -16.0 to -1.0 pts | 21 | 38 | 0.036 |
 <!-- results:end -->
 
 How to read this:
@@ -30,7 +43,12 @@ Every number in this README is generated from the files in [`results/`](results/
 ## Training
 
 <!-- training:start -->
-Not yet measured.
+- Base model: `Qwen/Qwen2.5-1.5B-Instruct`, fp16 weights, no quantisation. GPU: NVIDIA GeForce RTX 4060 Laptop GPU.
+- LoRA rank 16, alpha 32, dropout 0.05, on q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj: 18,464,768 trainable parameters (1.18% of 1,562,179,072).
+- Data: Spider `train_spider.json`, 6,394 examples after dropping 606 longer than 768 tokens.
+- Run: 6,394 examples seen (1.00 epochs), 843 optimizer steps, 29.3 minutes wall-clock, 3.6 examples/s, peak VRAM 7.08 GB (stopped: completed).
+- Loss on SQL tokens: 0.603 at step 1, 0.107 mean over the last 20 steps.
+- Optimiser: AdamW, peak learning rate 0.0002, cosine decay, 4 batches per step, up to 800 padded tokens per batch.
 <!-- training:end -->
 
 ![training loss](results/train_loss_curve.png)

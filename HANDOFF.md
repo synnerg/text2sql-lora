@@ -65,7 +65,8 @@ scripts/
   evaluate.py    backend x slice -> results/<run>__<slice>.json; caches every model
                  output in predictions/<run>.jsonl and only generates what is missing
   compare.py     paired tests between two runs -> results/compare__<slice>.json
-  train_lora.py  LoRA fine-tune, logs loss per step to results/train_log.jsonl
+  train_lora.py  LoRA fine-tune, logs loss per step to results/train_log.jsonl;
+                 checkpoints every 5 minutes and on stop, --resume continues
   plot_loss.py   results/train_log.jsonl -> results/train_loss_curve.png
   make_table.py  results/*.json -> the README results table
 tests/           unit tests for the scorer and stats, run in CI without a GPU
@@ -108,17 +109,52 @@ Run names used in the table: `qwen1.5b_zeroshot`, `qwen7b_ollama_zeroshot`,
 | 2026-10-01 | Training examples longer than the token cap are dropped, not truncated | A truncated schema would teach the model to guess at tables it cannot see. |
 | 2026-10-01 | Adapter is merged into the base weights for evaluation | Same inference path and latency profile as the zero-shot 1.5B row. |
 | 2026-10-01 | CI installs only the dev group and tests the stdlib scorer | No GPU in CI; installing CUDA PyTorch there would add minutes and prove nothing. |
+| 2026-10-01 | Training loss is computed only at SQL-token positions | Full-sequence vocabulary logits pushed a dry run past 8 GB VRAM into shared memory; slicing hidden states before the LM head removed that. |
+| 2026-10-01 | Batches are packed by padded-token count (`--max-tokens 800`), not by example count | VRAM use follows tokens per batch; a token budget keeps the peak predictable across short and long schemas. |
+| 2026-10-01 | Training checkpoints every 5 minutes (first one after 1 minute) and whenever the run stops | The first run was lost to a hard shutdown with nothing saved. A crash now costs at most 5 minutes. |
+| 2026-10-01 | Checkpoints are written to a temp folder, fsynced, then swapped in; `state.json` is written last | A power cut mid-save must never destroy the previous good checkpoint. |
+| 2026-10-01 | Resume rebuilds the batch schedule from the seed and skips completed batches; the checkpoint stores a settings fingerprint | The resumed run is the same run, and a checkpoint cannot be continued with different hyperparameters by accident. |
+| 2026-10-01 | A temperature-based pause guard was built, then removed before use (owner instruction) | The owner fixed the cooling problem directly and asked for full speed; the checkpoints remain as the safety net. |
+| 2026-10-01 | Priorities after the incident: training and tuned dev200 scoring are the only must-haves; demo app and full dev only if time allows | Recovery cost time before a fixed freeze. |
 
 ## Status checklist
 
-- [ ] Step 0: toolchain (git, uv, ollama, gh), uv env, CUDA PyTorch verified
-- [ ] 1: repo on GitHub, Spider downloaded, qwen2.5:7b pulled
-- [ ] 2: execution-match harness, smoke-tested on 10 examples
-- [ ] 3: zero-shot baselines on the dev slice (1.5B transformers, 7B Ollama)
-- [ ] 4: LoRA fine-tune on Spider train, loss curve
-- [ ] 5: tuned model re-scored, README opens with the 3-row table
-- [ ] 6: pushed, minimal CI green
+- [x] Step 0: toolchain (git, uv, ollama, gh), uv env, CUDA PyTorch verified
+- [x] 1: repo on GitHub (github.com/synnerg/text2sql-lora), Spider downloaded, qwen2.5:7b pulled
+- [x] 2: execution-match harness, smoke-tested on 10 examples
+- [x] 3: zero-shot baselines on the dev slice (1.5B transformers, 7B Ollama)
+- [ ] 4: LoRA fine-tune on Spider train, loss curve (**must-have**; run 2 in progress)
+- [ ] 5: tuned model re-scored on dev200, README opens with the 3-row table (**must-have**)
+- [ ] 6: pushed (done continuously), minimal CI green
 - [ ] Freeze: 3 resume bullets from measured numbers only
+- [ ] Only if time allows: full-dev evaluation, demo app
+
+## Incidents
+
+### 2026-10-01: hard shutdown during the first training run
+
+- The laptop overheated and powered off during the first real training run (the owner
+  reports about 6 minutes in). Windows logged Kernel-Power event 41 on reboot at
+  20:18:53. The firmware's ACPI thermal zone has a critical trip point of 373 K
+  (Kernel-Power event 125).
+- That run had no checkpointing, so its weights were lost. Its loss log survived up to
+  optimizer step 75 and is kept as `results/train_log_run1_interrupted.jsonl`. It is
+  not the run reported in the README.
+- Checks after reboot, all passed: `git fsck` clean and local HEAD equal to
+  `origin/main`; both baseline prediction caches have 200 rows matching the dev200
+  question ids; every JSON under `results/` and `data_slices/` parses and its counts
+  are consistent; `spider_data.zip` matches its published SHA256; `PRAGMA quick_check`
+  is ok on all 166 Spider databases; the Ollama model blobs match their digests; the
+  Qwen2.5-1.5B safetensors file loads (338 tensors); CUDA PyTorch still sees the GPU.
+- Changes made: 5-minute checkpoints with resume (see decisions log). A temperature
+  pause guard was written and then removed at the owner's instruction once they had
+  fixed the cooling problem.
+- Run 2 uses the same hyperparameters as run 1:
+  `--epochs 1 --max-len 768 --max-tokens 800 --max-batch 8 --grad-accum 4 --lr 2e-4
+  --time-budget-min 33`, plus `--ckpt-every-min 5 --resume --wall-deadline 21:25`.
+
+If training is interrupted again, rerun the same command: `--resume` picks up the newest
+complete checkpoint in `adapters/qwen1.5b-spider-lora/checkpoint`.
 
 ## Roadmap (future work: none of this is started as of 2026-10-01)
 

@@ -135,7 +135,30 @@ Run names used in the table: `qwen1.5b_zeroshot`, `qwen7b_ollama_zeroshot`,
 - [x] Full-dev evaluation (1,034 questions): all three models completed at 22:18, inside
       the 22:30 cutoff (`results/*__devfull.json`, `results/compare__devfull.json`). The
       README headline table is now full dev, with the dev200 table kept below it
-- [ ] Freeze: 3 resume bullets from measured numbers only
+- [x] Freeze: 3 resume bullets from measured numbers only (below)
+
+## Resume bullets (frozen 2026-10-01, measured numbers only)
+
+Each figure is followed by the file it comes from.
+
+1. Fine-tuned Qwen2.5-1.5B-Instruct for text-to-SQL with LoRA (18.5M trainable
+   parameters, 1.18% of the model) in 29 minutes on one 8 GB laptop GPU, raising
+   execution accuracy on the full Spider dev set (1,034 questions, unseen databases) from
+   46.7% to 62.7% (+16.0 points, 95% CI +12.8 to +19.1).
+   Sources: `results/train_summary.json`, `results/qwen1.5b_zeroshot__devfull.json`,
+   `results/qwen1.5b_lora__devfull.json`, `results/compare__devfull.json`.
+2. Built an execution-match evaluation harness (read-only SQLite execution with timeouts,
+   result-set comparison, exact McNemar and paired-bootstrap tests, per-question
+   prediction cache) with 24 unit tests in GitHub Actions CI, and benchmarked against a
+   zero-shot Qwen2.5-7B baseline (73.7%) with p50/p95 latency reported for every model.
+   Sources: `tests/`, `results/qwen7b_ollama_zeroshot__devfull.json`.
+3. Fit fp16 training into 8 GB of VRAM (7.08 GB peak) by computing loss on SQL tokens only
+   and batching by token budget, and added atomic 5-minute checkpoints with resume after
+   a hardware shutdown lost the first run.
+   Sources: `results/train_summary.json`, the Incidents section above.
+
+The tuned 1.5B model scores below the zero-shot 7B model (62.7% against 73.7%). Do not
+write or imply otherwise.
 
 ## Incidents
 

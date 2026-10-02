@@ -155,10 +155,18 @@ def main():
     acc_loss, acc_n = 0.0, 0
     opt.zero_grad(set_to_none=True)
 
+    # The causal LM with LoRA layers injected. We call its transformer and LM head
+    # separately so vocabulary logits are only computed at SQL-token positions; doing
+    # it for every prompt token costs gigabytes of VRAM for no gradient signal.
+    core = model.base_model.model
+
     for b_i, batch in enumerate(schedule):
         ids, mask, labels = (t.to("cuda") for t in collate(batch, pad_id))
         with torch.autocast("cuda", dtype=torch.float16):
-            loss = model(input_ids=ids, attention_mask=mask, labels=labels).loss
+            hidden = core.model(input_ids=ids, attention_mask=mask).last_hidden_state
+            keep = labels[:, 1:] != -100
+            logits = core.lm_head(hidden[:, :-1][keep])
+        loss = torch.nn.functional.cross_entropy(logits.float(), labels[:, 1:][keep])
         if not torch.isfinite(loss):
             raise RuntimeError(f"non-finite loss at batch {b_i}; fp16 is unstable for this setup")
         scaler.scale(loss / args.grad_accum).backward()
